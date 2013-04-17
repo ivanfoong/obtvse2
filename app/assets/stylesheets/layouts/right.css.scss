@@ -301,7 +301,7 @@ nav.pagination {
 }
 
 /* Medium */
-@media only screen and (max-width: 1024px) {
+@media all and (max-width: 1024px) {
   header {
     width: 180px;
 
@@ -323,8 +323,7 @@ nav.pagination {
 }
 
 /* iPhone [portrait + landscape] */
-@media only screen and (max-width: 768px),
-only screen and (-webkit-min-device-pixel-ratio: 2) {
+@media all and (max-width: 768px) {
   header {
     position: relative;
     top: auto;
