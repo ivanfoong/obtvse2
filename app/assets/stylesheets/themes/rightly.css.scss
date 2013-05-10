@@ -1,10 +1,8 @@
-@import "../theme";
-@import "bourbon";
+@import "../color_scheme";
+@import "compass/css3";
 
-/*
-  Fonts
-    fonts are overwritten by /fonts css files
-*/
+$width: 620px;
+$width-big: 720px;
 
 $line-height: 1.4em;
 
@@ -26,6 +24,7 @@ body, textarea, pre, input {
   font-family: 'freight-sans-pro', Helvetica, Arial, sans-serif;
   font-size: 2.0rem;
   line-height: $line-height;
+  background: $body-bg;
 }
 
 h1, h2, h3, h4, #text-title * {
@@ -71,6 +70,7 @@ header {
   right: 0;
   bottom: 0;
   width: $header-width;
+  background: $header-bg;
   border-left: 1px solid #ddd;
 
   .inner {
@@ -226,6 +226,10 @@ header {
   }
 }
 
+.inner {
+  width: $width;
+}
+
 #home-link {
   display: inline-block;
   width: 32px;
@@ -277,26 +281,6 @@ nav.pagination {
 
   a {
     margin: 0 20px 0 0;
-  }
-}
-
-#sheet {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #fff;
-  z-index: 100000;
-  opacity: 1;
-  @include transition(all ease-in .2s);
-}
-
-.wf-active,
-.wf-inactive {
-  #sheet {
-    opacity: 0;
-    pointer-events: none;
   }
 }
 

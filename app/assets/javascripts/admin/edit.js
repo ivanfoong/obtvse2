@@ -16,7 +16,7 @@ var showdown       = new Showdown.converter(),
       save      : '#save-button',
       form      : '#new_post, .edit_post',
       bar       : '#bar',
-      blog      : '#blog-button',
+      blog      : '#edit-button',
       publish   : '#publish-button',
       preview   : '#post-preview'
     };
@@ -27,6 +27,7 @@ $.subscribe('edit:enter', function(id) {
   el = fn.getjQueryElements(editElements);
   makeExpandingAreas();
   setPostState();
+  setDraft(state.post ? state.post.draft : true);
   updatePostState();
   setLineHeight();
   setEditorHeight();
@@ -34,6 +35,7 @@ $.subscribe('edit:enter', function(id) {
   if (window.location.hash == '#preview')
     showPreview();
 
+  console.log('edit enter');
   setTimeout(function() {
     el.title.focus().putCursorAtEnd();
   }, 0);
@@ -67,12 +69,6 @@ function doEditBindings() {
     if (state.preview) updatePreview();
   });
 
-  // DOMSubtreeModified detects when the text pre changes size,
-  // so we can adjust the height of the other text areas
-  $('#text-title pre').on('DOMSubtreeModified', function textTitleModified() {
-    fn.log(setColumnHeights());
-  });
-
   // Preview button
   $('#preview-button').click(function previewButtonClick(e){
     e.preventDefault();
@@ -90,14 +86,6 @@ function doEditBindings() {
       el.publish.html('...');
       setDraft(!state.post.draft);
       savePost();
-    })
-
-    .hover(function() {
-      if (state.post.draft) el.publish.html('Publish?');
-      else el.publish.html('Undo?');
-    }, function() {
-      if (state.post.draft) el.publish.html('Draft');
-      else el.publish.html('Published');
     });
 
   // Save.click
@@ -162,7 +150,7 @@ function updatePostState() {
 
 // Saves the post
 function savePost(callback) {
-  if (state.saving || !state.changed)
+  if (state.saving || (state.post && !state.changed))
     return false;
 
   state.saving = true;
@@ -264,7 +252,7 @@ function setDraftInput(draft) {
 
 function updateDraftButton(draft) {
   if (draft) el.publish.html('Draft').addClass('icon-edit').removeClass('icon-check');
-  else       el.publish.html('Published').removeClass('icon-edit').addClass('icon-check');
+  else       el.publish.html('Live').removeClass('icon-edit').addClass('icon-check');
 }
 
 // Preview
@@ -361,7 +349,7 @@ function setLineHeight() {
 
 function setEditorHeight() {
   if (!state.editing) return false;
-  var content_height = $(window).height() - el.title.height();
+  var content_height = $(window).height() - el.title.height() - el.bar.height() - 180;
   // content_height + margin
   $('#text-content').css('min-height', content_height);
 }

@@ -1,5 +1,5 @@
-@import "bourbon";
-@import "theme";
+@import "compass/css3";
+@import "color_scheme";
 
 ::selection, ::-moz-selection {
   background: $selection-bg;
@@ -15,6 +15,27 @@ body {
   word-wrap: break-word;
 }
 
+/* Typekit hiding sheet */
+#sheet {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 100000;
+  opacity: 1;
+  @include transition(all ease-in .2s);
+}
+
+.wf-active,
+.wf-inactive {
+  #sheet {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
 #body {
   background: $body-bg;
   position: relative;
@@ -22,7 +43,7 @@ body {
 }
 
 .inner {
-  width: $width;
+  width: 620px;
   position: relative;
   margin: 0 auto;
 }
@@ -75,32 +96,24 @@ aside {
   }
 }
 
-#blog-button {
-  width: 0px;
-  height: 0px;
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  border-top: 20px solid rgba(0,0,0,0.1);
+#edit-button {
   display: block;
   overflow: hidden;
-  position: absolute;
-  top: 0;
-  right: -20px;
+  position: fixed;
+  top: 1em;
+  right: 1em;
   z-index: 100;
+  color: #ddd;
   @include transition(all .3s ease-in);
 
   &:hover {
-    border-top-color: $theme;
+    color: $theme;
   }
 }
 
 .not-logged-in {
-  #blog-button {
-    border-top-color: #fff;
-
-    &:hover {
-      border-top-color: #ccc;
-    }
+  #edit-button {
+    display: none;
   }
 }
 
@@ -108,11 +121,11 @@ nav.pagination {
   text-align: center;
   margin: 60px 0;
   padding: 0;
+  font-weight: bold;
 }
 
 nav.pagination a {
   margin: 0 15px;
-  font-weight: bold;
 }
 
 /* nonsense */
